@@ -1,5 +1,5 @@
 # Terraform AWS
-# Provisioning an EC2
+# Provisioning an EC2 and S3
 /*
 provider "aws" {     # This curl braces should start in this line and not the next line
 region = "us-east-1"
