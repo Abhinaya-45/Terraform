@@ -1,0 +1,21 @@
+#Creating a custom VPC
+/*
+# Define the provider
+provider "aws" {
+  region = "us-east-1" # Update the region based on your preference
+}
+
+# Create a VPC
+resource "aws_vpc" "main" {
+  cidr_block           = "10.0.0.0/16" # Adjust the CIDR block as required
+  enable_dns_support   = true
+  enable_dns_hostnames = true
+  tags = {
+    Name = "main-vpc"
+  }
+}
+
+# Output the VPC ID
+output "vpc_id" {
+  value = aws_vpc.main.id
+} */
