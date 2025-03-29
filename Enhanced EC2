@@ -1,0 +1,95 @@
+# Define the AWS provider
+provider "aws" {
+  region = "us-east-1" # Specify the AWS region where the instance will be provisioned
+}
+
+# Create a Security Group for the EC2 instance
+resource "aws_security_group" "example" {
+  name_prefix = "ec2-security-group"
+  description = "Allow inbound traffic for SSH and HTTP"
+
+  # Inbound rules for the Security Group
+  ingress {
+    from_port   = 22  # Allow SSH
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] # Open SSH to all IPs (restrict in production!)
+  }
+
+  ingress {
+    from_port   = 80  # Allow HTTP
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # Outbound rules for the Security Group
+  egress {
+    from_port   = 0  # Allow all outbound traffic
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "ec2-security-group"
+  }
+}
+
+# Provision an EC2 instance
+resource "aws_instance" "example" {
+  ami           = "ami-0c55b159cbfafe1f0" # Mandatory: Specify the Amazon Machine Image (AMI) ID
+  instance_type = "t2.micro"              # Mandatory: Specify the EC2 instance type
+
+  # Optional fields for security and networking
+  key_name                 = "my-key-pair"                    # Optional: Key pair for SSH access
+  subnet_id                = "subnet-0123456789abcdef0"        # Optional: Place the instance in a specific subnet
+  vpc_security_group_ids   = [aws_security_group.example.id]   # Optional: Attach security groups
+  associate_public_ip_address = true                          # Optional: Assign a public IP address
+
+  # Optional fields for storage
+  root_block_device {
+    volume_size = 8       # Optional: Root volume size in GiB
+    volume_type = "gp2"   # Optional: Volume type (e.g., gp2, io1, standard)
+  }
+
+  ebs_block_device {
+    device_name = "/dev/xvdf" # Optional: Add an extra EBS volume
+    volume_size = 10          # Size in GiB
+    volume_type = "gp2"       # Volume type
+  }
+
+  # Optional fields for instance customization
+  user_data = <<-EOF
+    #!/bin/bash
+    yum update -y
+    yum install httpd -y
+    systemctl start httpd
+    systemctl enable httpd
+  EOF
+  # User Data: This script installs and starts an HTTP server on the instance
+
+  tags = {
+    Name = "example-ec2-instance" # Optional: Tag to identify the EC2 instance
+  }
+
+  # Optional fields for IAM role (permissions)
+  iam_instance_profile = "example-instance-profile" # Optional: Attach an IAM role for AWS service access
+
+  # Optional fields for cost and resource management
+  instance_initiated_shutdown_behavior = "stop" # Optional: Stop instance on shutdown
+  disable_api_termination = true               # Optional: Prevent accidental termination
+
+  # Optional fields for performance and monitoring
+  availability_zone = "us-east-1a" # Optional: Launch instance in a specific Availability Zone
+  monitoring        = true         # Optional: Enable detailed monitoring
+}
+
+# Output the instance ID and public DNS
+output "instance_id" {
+  value = aws_instance.example.id
+}
+
+output "public_dns" {
+  value = aws_instance.example.public_dns
+}
