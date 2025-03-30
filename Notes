@@ -1,0 +1,7 @@
+Terraform notes:
+1) An IAC that is Common. Can be Used with AwS, Azure, Alibaba cloud, GCP anything. So mostly used in hybrid and multicloud environments or if there is a possibility of switching between the cloud providers
+2) Terraform Init; Terraform Validate; Terraform plan; Terraform apply;
+3) Init initializes based on the provider it gets the Credentials could be Aws or Azure; Validate does Syntax Check; Plan is like a dry run So we don't break the existing environment; Apply is when the actual resources are deployed.
+4) There are separate blocks in TF Provisioners blocks Resource block Output block variables block eh. Each of this Can be maintained as a Separate file for easier fixes Similar to microservices.
+5) The above also aids in reusability We can provision the same resource with same configuration On multiple sites across regions. All by not hardcoding values but by using variables.
+6) tf.state file is an important file that maintains a history of all the
