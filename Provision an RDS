@@ -1,0 +1,38 @@
+#Amazon Q plugin on VS code helps auto populate the entier code.
+#rds.tf ideal name
+#allocated_storage; engine; instance_class; username and paaswd are the mandatory parameters to be passed
+#Read Replicas improve response time but are NOT an alternative to backup
+#Multi-AZ deployments serve HA and Automated Backups improve stability and reliability.
+
+
+
+# Define the AWS provider
+provider "aws" {
+  region = "us-east-1" # Update with your desired AWS region
+}
+
+# Create an RDS instance
+resource "aws_db_instance" "example" {
+  allocated_storage    = 20                      # Minimum storage (in GiB) required for RDS
+  engine               = "mysql"                # Database engine (e.g., mysql, postgres, aurora)
+  engine_version       = "8.0"                  # Engine version
+  instance_class       = "db.t2.micro"          # Instance size
+  name                 = "exampledb"            # Initial database name
+  username             = "admin"                # Master username
+  password             = "password1234"         # Master password
+  parameter_group_name = "default.mysql8.0"     # Parameter group for MySQL 8.0
+  skip_final_snapshot  = true                   # Skip snapshot when deleting the instance
+
+  tags = {
+    Name = "example-rds-instance"
+  }
+}
+
+# Output RDS endpoint
+output "db_endpoint" {
+  value = aws_db_instance.example.endpoint
+}
+
+output "db_username" {
+  value = aws_db_instance.example.username
+}
