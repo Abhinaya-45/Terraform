@@ -1,3 +1,5 @@
+#One EBS Volume can be attached only to a single EC2 instance. EBS volume is exclusive to an EC2.
+
 # Define the AWS provider
 provider "aws" {
   region = "us-east-1" # Specify the desired region
