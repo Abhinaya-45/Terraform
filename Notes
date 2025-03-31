@@ -8,4 +8,5 @@ Terraform notes:
 7) provider.tf: Multi region or Multi cloud or Hybrid provisioning we can reference the Specific provider within the resource block using an alias created within the provider block or file. So each provide has its own alias by which it can be referenced.
 8) terraform.tfvars: File specific for storing variables; In a typical use case this would be the only file that needs modification, as per requirement. Ex. We need 2 ec2 created One with rhel other with AIX then all we need to de is Specify the ami id specific for each os and the main.tf Vola 2 new eC2 provisioned and we can get the instance id of these in the output.tf file.
 9) output.tf: This is essential file else to get the resource id we would need to login to the console-Also for a large number of resources obtaining the values from console is not efficient. Also on multi Cloud or hybrid even more cumbersome.
-
+10) The state file should be stored on a remote backend such as S3 for all the team members to be able to access it and to be aware of the changes made. Storing the state file locally is not practical.
+11)
