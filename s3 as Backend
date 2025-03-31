@@ -1,0 +1,24 @@
+
+#provider.tf
+provider "aws" {
+    region="us-east-1"
+    access_key="XXX"
+    secret_key="xxx"
+}
+
+#main.tf
+resource "aws_s3_bucket" "terraform_state"{
+    bucket="my-terraform-state-abhirrrr1"
+    acl="private"
+
+    versioning{
+        enabled=true
+    }
+
+#backend.tf
+terraform {
+backend "s3" {
+  bucket = "my-terraform-state-abhirrrr1"
+   key    = "terraform-state-file"
+    region = "us-east-1"
+}
