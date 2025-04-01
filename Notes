@@ -13,5 +13,6 @@ Terraform notes:
 12) terraform fmt : this looks for .tf files in the current and sub directories and formats them in a proper sequesnce that is readable.
 13) Modules are created to enhance reusablity.
 14)$(var.variable_name) is how we refrence a variable.
+15) data "aws_vpc" to reference an exisitng vpc and resource "aws_vpc" to create a new vpc
 
 
