@@ -14,5 +14,5 @@ Terraform notes:
 13) Modules are created to enhance reusablity.
 14)$(var.variable_name) is how we refrence a variable.
 15) data "aws_vpc" to reference an exisitng vpc and resource "aws_vpc" to create a new vpc
-
-
+16) Although terraform show gives you the o/p this is way too elaborate when all you need could be the instance or vpc id so including output.tf or output block would be ideal.
+17) 
